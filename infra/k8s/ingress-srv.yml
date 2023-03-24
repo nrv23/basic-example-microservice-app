@@ -1,0 +1,40 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec: # hostea un servicio para que pueda ser publico desde un navegador y pueda ser consultado
+  rules: # asignar los servicios que se van a usar en esta implementacion
+    - host: posts.com # asigna un host ficticio
+      http:
+        paths:
+          - path: /posts/create # ruta de servicio
+            pathType: Prefix
+            backend:
+              service:
+                name: posts-clusterip-srv # nomrbe del servicio qye va hostear
+                port:
+                  number: 9000
+          - path: /posts # ruta de servicio
+            pathType: Prefix
+            backend:
+              service:
+                name: query-srv # nomrbe del servicio qye va hostear
+                port:
+                  number: 9002
+          - path: /posts/?(.*)/comments # comments
+            pathType: Prefix
+            backend:
+              service:
+                name: comments-srv # nomrbe del servicio qye va hostear
+                port:
+                  number: 9001
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+                service:
+                  name: client-srv  # nomrbe del servicio qye va hostear
+                  port:
+                    number: 3000

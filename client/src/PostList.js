@@ -9,7 +9,7 @@ const PostList = () => {
 
     const [postList, setPosts] = useState({});
     const fetchPosts = async () => {
-        const { data } = await axios('http://localhost:9002/posts');
+        const { data } = await axios('http://posts.com/posts');
         setPosts(data);
     };
 

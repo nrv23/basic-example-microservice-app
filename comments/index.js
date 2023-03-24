@@ -27,7 +27,7 @@ app.post("/posts/:id/comments", async (req, res) => {
     comments.push({ id: commentId, content, status: "pending" });
     commentsByPostId[id] = comments;
 
-    await axios.post('http://localhost:9005/events', {
+    await axios.post('http://event-bus-srv:9005/events', {
         type: "CommentCreated",
         data: {
             id: commentId,
@@ -62,7 +62,7 @@ app.post('/events', async (req,res) => {
             }
         }
 
-        await axios.post("http://localhost:9005/events", {
+        await axios.post("http://event-bus-srv:9005/events", {
             type: "CommentUpdated",
             data: {
                 postId, id, content, status  

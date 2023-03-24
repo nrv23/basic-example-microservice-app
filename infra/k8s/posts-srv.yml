@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-srv
+spec:
+  type: NodePort # usar nodeport para desarrollo, para produccion load balancer
+  selector:
+    app: posts # contenedor o pod que va ejecutar el servicio
+  ports:
+    - name: posts
+      protocol: TCP
+      port: 9000 # puerto de salida de la maquina local o servidor o maquina virtual
+      targetPort: 9000 # puerto interno del contenedor 

@@ -17,7 +17,7 @@ app.post("/events", async (req,res) => {
 
             const status = data.content.includes('orange') ? 'rejected':'approved' // si incluye esta palabra entonces el comentario es bloqueado
 
-            await axios.post('http://localhost:9005/events',{
+            await axios.post('http://event-bus-srv:9005/events',{
                 type: "CommentModerated",
                 data: {
                    id: data.id,

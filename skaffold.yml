@@ -1,0 +1,60 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/
+build:
+  local:
+    push: false # no enviar la imagen a docker push por cada deployment que haga skaffold
+  artifacts:
+    - image: nrv2391/client
+      context: client # la carpeta donde se almacena el proyecto
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.js'
+            dest: .
+    - image: nrv2391/comments
+      context: comments # la carpeta donde se almacena el proyecto
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: nrv2391/posts
+      context: posts # la carpeta donde se almacena el proyecto
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: nrv2391/moderation
+      context: moderation # la carpeta donde se almacena el proyecto
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: nrv2391/query
+      context: query # la carpeta donde se almacena el proyecto
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: nrv2391/event_bus
+      context: event-bus # la carpeta donde se almacena el proyecto
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+
+# este archivo crea las imagenes y los deploys en kubernetes

@@ -67,7 +67,7 @@ const server = http.createServer(app);
 server.listen(PORT,async () => {
 
     console.log(`Servidor escuchando en puerto ${PORT}`);
-    const { data } = await axios.get("http://localhost:9005/events");
+    const { data } = await axios.get("http://event-bus-srv:9005/events");
 
     for (const event of data) {
         console.log("Procesando evento", event);

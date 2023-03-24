@@ -14,8 +14,8 @@ app.get("/posts", async (req, res) => {
     res.send(posts);
 });
 
-
-app.post("/posts", async (req, res) => {
+//sdasd
+app.post("/posts/create", async (req, res) => {
 
     try {
         const id = randomBytes(4).toString("hex"); // crea un string randmon de caracteres en hexadecimal
@@ -25,7 +25,7 @@ app.post("/posts", async (req, res) => {
             title
         }
 
-        await axios.post('http://localhost:9005/events', {
+        await axios.post('http://event-bus-srv:9005/events', {
             type: "PostCreated",
             data: {
                 id,
@@ -52,5 +52,6 @@ const server = http.createServer(app);
 
 
 server.listen(PORT, () => {
+    console.log("nueva version 12325435");
     console.log(`Servidor escuchando en puerto ${PORT}`);
 })

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-depl
+spec:
+  replicas: 1 # numero de instancias que va crear como default
+  selector: # asignar una etiqueta para saber cual pod se va usar
+    matchLabels:
+      app: client
+  template: # esta es la configuracion del pod que se va usar en el deployment
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: client
+          image: nrv2391/client:latest
+--- # se ponen esos tres guiones para separar la creacion de un nuevo objeto en Kubernetes
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-srv
+spec:
+  type: ClusterIP # usar nodeport para desarrollo, para produccion load balancer
+  selector:
+    app: client # contenedor o pod que va ejecutar el servicio
+  ports:
+    - name: client
+      protocol: TCP
+      port: 3000 # puerto de salida de la maquina local o servidor o maquina virtual
+      targetPort: 3000 # puerto interno del contenedor 

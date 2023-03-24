@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: query-depl
+spec:
+  replicas: 1 # numero de instancias que va crear como default
+  selector: # asignar una etiqueta para saber cual pod se va usar
+    matchLabels:
+      app: query
+  template: # esta es la configuracion del pod que se va usar en el deployment
+    metadata:
+      labels:
+        app: query
+    spec:
+      containers:
+        - name: query
+          image: nrv2391/query
+--- # se ponen esos tres guiones para separar la creacion de un nuevo objeto en Kubernetes
+apiVersion: v1
+kind: Service
+metadata:
+  name: query-srv
+spec:
+  type: ClusterIP # usar nodeport para desarrollo, para produccion load balancer
+  selector:
+    app: query # contenedor o pod que va ejecutar el servicio
+  ports:
+    - name: query
+      protocol: TCP
+      port: 9002 # puerto de salida de la maquina local o servidor o maquina virtual
+      targetPort: 9002 # puerto interno del contenedor 
